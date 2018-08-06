@@ -4,12 +4,13 @@ MAINTAINER david@logicalspark.com
 ENV TIKA_VERSION 1.18
 ENV TIKA_SERVER_URL https://www.apache.org/dist/tika/tika-server-$TIKA_VERSION.jar
 
+RUN 	apt-get update && apt-get install -y --no-install-recommends apt-utils
 RUN	apt-get update \
 	&& apt-get install apt-utils openjdk-8-jre-headless curl gdal-bin tesseract-ocr \
 		tesseract-ocr-eng tesseract-ocr-ita tesseract-ocr-fra tesseract-ocr-spa tesseract-ocr-deu \
 		tesseract-ocr-nld -y \
 	&& curl -sSL https://people.apache.org/keys/group/tika.asc -o /tmp/tika.asc \
-	&& /usr/bin/gpg --import /tmp/tika.asc \
+	&& gpg2 --import /tmp/tika.asc \
 	&& curl -sSL "$TIKA_SERVER_URL.asc" -o /tmp/tika-server-${TIKA_VERSION}.jar.asc \
 	&& NEAREST_TIKA_SERVER_URL=$(curl -sSL http://www.apache.org/dyn/closer.cgi/${TIKA_SERVER_URL#https://www.apache.org/dist/}\?asjson\=1 \
 		| awk '/"path_info": / { pi=$2; }; /"preferred":/ { pref=$2; }; END { print pref " " pi; };' \
