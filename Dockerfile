@@ -6,6 +6,7 @@ COPY sshd_config /etc/ssh/
 
 ENV TIKA_VERSION 1.18
 ENV TIKA_SERVER_URL https://www.apache.org/dist/tika/tika-server-$TIKA_VERSION.jar
+ENV DEBIAN_FRONTEND noninteractive
 
 RUN 	apt-get update && apt-get install -y --no-install-recommends apt-utils
 RUN	apt-get update \
